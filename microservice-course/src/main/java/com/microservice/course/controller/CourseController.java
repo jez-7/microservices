@@ -15,25 +15,30 @@ import java.util.Optional;
 @RequestMapping("api/v1/courses")
 @RestController
 public class CourseController {
-
     @Autowired
     private ICourseService service;
-
     @GetMapping
     ResponseEntity<List<Course>> findAll() {
         List<Course> c = service.findAll();
         return ResponseEntity.ok(c);
     }
-
     @GetMapping("/{id}")
     ResponseEntity<?> findById(@PathVariable Long id) {
         Optional<Course> c = service.findById(id);
         return ResponseEntity.ok(c);
     }
-
     @PostMapping
     ResponseEntity<?> create(@RequestBody Course course) {
         Course c = service.create(course);
         return new ResponseEntity<>(c, HttpStatus.CREATED);
     }
+
+    @GetMapping("/search-student/{courseId}")
+    public ResponseEntity<?> findStudentsByCourseId(@PathVariable Long courseId) {
+        return ResponseEntity.ok(service.findStudentsByCourseId(courseId));
+    }
+
+
+
+
 }
